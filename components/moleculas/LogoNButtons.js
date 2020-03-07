@@ -5,7 +5,7 @@ import {Colors, Typography} from '../../styles/index';
 
 const {height, width} = Dimensions.get('screen');
 
-class Initial extends Component {
+class Login extends Component {
   render() {
     const {navigation} = this.props;
 
@@ -18,14 +18,14 @@ class Initial extends Component {
               bg={Colors.WHITE}
               color={Colors.PRIMARY_BLUE}
               shadow={styles.shadowBtn}
-              text="Iniciar Sesión"
-              onPressHandler={() => navigation.navigate('LoginOptions')}
+              text="Iniciar Sesión con facebook"
+              // onPressHandler={() => navigation.navigate('Login')}
             />
             <RoundedButton
               bg={Colors.PRIMARY_BLUE}
               color={Colors.WHITE}
-              text="Registrarse"
-              onPressHandler={() => navigation.navigate('Register')}
+              text="Iniciar con Email"
+              // onPressHandler={() => navigation.navigate('Register')}
             />
           </View>
           <View style={styles.versionView}>
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Initial;
+export default Login;
