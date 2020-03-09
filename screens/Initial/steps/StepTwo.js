@@ -1,25 +1,42 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, KeyboardAvoidingView} from 'react-native';
-import RoundedInputs from '../../components/atomos/RoundedInputs';
-import NextButton from '../../components/atomos/NextButton';
-import {Colors, Typography} from '../../styles/index';
+import {View, StyleSheet, KeyboardAvoidingView, Text} from 'react-native';
+import RoundedInputs from '../../../components/atomos/RoundedInputs';
+import NextButton from '../../../components/atomos/NextButton';
+import BackButton from '../../../components/atomos/BackButton';
+import {Colors, Typography} from '../../../styles';
 import {Navigation} from 'react-native-navigation';
 
-class Login extends Component {
+class StepTwo extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     username: '',
     password: '',
     errors: {},
   };
 
+  nextStep = () => {
+    const {next} = this.props;
+    next();
+  };
+
+  backStep = () => {
+    const {back} = this.props;
+    back();
+  };
+
   render() {
     return (
       <KeyboardAvoidingView style={styles.container}>
-        {/* <BackScreen onBackScreen={this.handleBackScreen} /> */}
         <Text style={styles.title}>Parquiem</Text>
-        <RoundedInputs placeholder="Usuario" nameIcon="user" />
         <RoundedInputs placeholder="Contraseña" nameIcon="lock" />
-        <NextButton style={styles.next} />
+        <RoundedInputs placeholder="Repetir Contraseña" nameIcon="lock" />
+        <View style={styles.buttons}>
+          <BackButton handleBack={this.backStep} style={styles.next} />
+          <NextButton handleNext={this.nextStep} style={styles.next} />
+        </View>
       </KeyboardAvoidingView>
     );
   }
@@ -49,6 +66,10 @@ const styles = StyleSheet.create({
     color: Colors.GRAY,
     paddingBottom: 15,
   },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  }
 });
 
-export default Login;
+export default StepTwo;

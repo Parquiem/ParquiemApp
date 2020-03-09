@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableHighlight, StyleSheet} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Typography} from '../../styles/index';
 
 export default function RoundedButton({
@@ -10,7 +10,7 @@ export default function RoundedButton({
   onPressHandler,
 }) {
   return (
-    <TouchableHighlight
+    <TouchableOpacity
       style={[
         styles.btn,
         {
@@ -20,14 +20,14 @@ export default function RoundedButton({
       ]}
       onPress={onPressHandler}>
       <Text style={[styles.btnText, {color}]}>{text}</Text>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   btn: {
     borderRadius: 100,
-    width: 350,
+    width: '90%',
     paddingTop: 15,
     paddingBottom: 20,
     alignItems: 'center',

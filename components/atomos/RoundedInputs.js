@@ -1,33 +1,51 @@
 import React from 'react';
-import {Text, TextInput, StyleSheet} from 'react-native';
-import {Colors} from '../../styles/index';
+import {View, Dimensions, TextInput, StyleSheet} from 'react-native';
+import {Icon} from 'react-native-elements';
+import {Colors, Typography} from '../../styles/index';
 
-export default function RoundedInputs({placeholder, onChangeHandler}) {
+const {width, height} = Dimensions.get('screen');
+
+export default function RoundedInputs({
+  placeholder,
+  onChangeHandler,
+  nameIcon,
+}) {
   return (
     <>
-      <TextInput
-        style={styles.input}
-        value={placeholder}
-        onChangeText={onChangeHandler}
-      />
+      <View style={styles.container}>
+        <Icon name={nameIcon} type="font-awesome" color={Colors.PRIMARY_BLUE} />
+        <TextInput
+          style={styles.input}
+          placeholder={placeholder}
+          onChangeText={onChangeHandler}
+        />
+      </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  input: {
-    color: Colors.LIGHT_BLUE,
-    borderRadius: 100,
-    width: 350,
-    paddingTop: 15,
-    paddingBottom: 20,
-    paddingLeft: 20,
-    marginBottom: 20,
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: Colors.WHITE,
+    width: width - 60,
+    marginBottom: 20,
+    borderRadius: 100,
+    paddingHorizontal: 20,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.18,
     shadowRadius: 4,
     elevation: 1,
+    alignSelf: 'center',
+  },
+  input: {
+    color: Colors.PRIMARY_BLUE,
+    borderRadius: 100,
+    height: 70,
+    marginLeft: 20,
+    fontFamily: Typography.FONT_FAMILY_BOLD,
+    width: '100%',
   },
 });

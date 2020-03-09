@@ -1,14 +1,48 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import RoundedButton from '../../components/atomos/RoundedButton';
 import {Colors, Typography} from '../../styles/index';
-
-const {height, width} = Dimensions.get('screen');
+import {Navigation} from 'react-native-navigation';
 
 class Initial extends Component {
-  render() {
-    const {navigation} = this.props;
+  //TODO: Arreglar la funcion para no hacer hardcode el nombre del componente
+  goToLogin = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'login',
+        options: {
+          topBar: {
+            animate: false,
+            leftButtonColor: Colors.PRIMARY_BLUE,
+            background: {
+              color: Colors.DARKER_WHITE,
+            },
+            elevation: 0,
+          },
+        },
+      },
+    });
+  };
 
+  goToRegister = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'register',
+        options: {
+          topBar: {
+            animate: false,
+            leftButtonColor: Colors.PRIMARY_BLUE,
+            background: {
+              color: Colors.DARKER_WHITE,
+            },
+            elevation: 0,
+          },
+        },
+      },
+    });
+  };
+
+  render() {
     return (
       <>
         <View style={styles.mainWrapper}>
@@ -18,15 +52,21 @@ class Initial extends Component {
               bg={Colors.WHITE}
               color={Colors.PRIMARY_BLUE}
               shadow={styles.shadowBtn}
-              text="Iniciar Sesión"
-              onPressHandler={() => navigation.navigate('LoginOptions')}
+              text="Iniciar Sesión con facebook"
             />
             <RoundedButton
               bg={Colors.PRIMARY_BLUE}
               color={Colors.WHITE}
-              text="Registrarse"
-              onPressHandler={() => navigation.navigate('Register')}
+              text="Iniciar sesión"
+              goTo="login"
+              onPressHandler={this.goToLogin}
             />
+            <Text>
+              <Text>¿No tienes cuenta? </Text>
+              <Text onPress={this.goToRegister} style={styles.register}>
+                Registrate
+              </Text>
+            </Text>
           </View>
           <View style={styles.versionView}>
             <Text style={styles.versionText}>Parquiem v1.0</Text>
@@ -40,6 +80,7 @@ class Initial extends Component {
 const styles = StyleSheet.create({
   mainWrapper: {
     flex: 1,
+    backgroundColor: Colors.DARKER_WHITE,
   },
   contentView: {
     flex: 9,
@@ -59,7 +100,11 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.18,
     shadowRadius: 4,
-    elevation: 1,
+    elevation: 2,
+  },
+  register: {
+    color: Colors.PRIMARY_BLUE,
+    fontWeight: Typography.FONT_WEIGHT_BOLD,
   },
   versionView: {
     flex: 1,
