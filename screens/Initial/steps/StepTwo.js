@@ -1,25 +1,31 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, KeyboardAvoidingView, Text} from 'react-native';
-import RoundedInputs from '../../../components/atomos/RoundedInputs';
+import RoundedInputPassword from '../../../components/atomos/RoundedInputPassword';
 import NextButton from '../../../components/atomos/NextButton';
 import BackButton from '../../../components/atomos/BackButton';
 import {Colors, Typography} from '../../../styles';
-import {Navigation} from 'react-native-navigation';
 
 class StepTwo extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      password: '',
+      password2: '',
+      errorLocal: false,
+    };
   }
 
-  state = {
-    username: '',
-    password: '',
-    errors: {},
-  };
-
   nextStep = () => {
-    const {next} = this.props;
-    next();
+    const {password, password2} = this.state;
+    const {next, saveState} = this.props;
+    if (password.length > 0 && password2.length > 0) {
+      saveState({password, password2});
+      this.setState({errorLocal: false}, () => {
+        next();
+      });
+    } else {
+      this.setState({errorLocal: true});
+    }
   };
 
   backStep = () => {
@@ -27,12 +33,48 @@ class StepTwo extends Component {
     back();
   };
 
+  passwordChange = text => this.setState({password: text});
+
+  password2Change = text => this.setState({password2: text});
+
   render() {
+    const {password, password2, errorLocal} = this.state;
     return (
       <KeyboardAvoidingView style={styles.container}>
         <Text style={styles.title}>Parquiem</Text>
-        <RoundedInputs placeholder="Contraseña" nameIcon="lock" />
-        <RoundedInputs placeholder="Repetir Contraseña" nameIcon="lock" />
+        {!errorLocal ? (
+          <>
+            <RoundedInputPassword
+              onChangeHandler={this.passwordChange}
+              placeholder="Contraseña"
+              nameIcon="lock"
+              value={password}
+            />
+            <RoundedInputPassword
+              onChangeHandler={this.password2Change}
+              placeholder="Repetir Contraseña"
+              nameIcon="lock"
+              value={password2}
+            />
+          </>
+        ) : (
+          <>
+            <RoundedInputPassword
+              onChangeHandler={this.passwordChange}
+              placeholder="Contraseña"
+              nameIcon="lock"
+              value={password}
+              error={true}
+            />
+            <RoundedInputPassword
+              onChangeHandler={this.password2Change}
+              placeholder="Repetir Contraseña"
+              nameIcon="lock"
+              value={password2}
+              error={true}
+            />
+          </>
+        )}
         <View style={styles.buttons}>
           <BackButton handleBack={this.backStep} style={styles.next} />
           <NextButton handleNext={this.nextStep} style={styles.next} />

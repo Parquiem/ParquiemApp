@@ -5,7 +5,7 @@ import {Colors, Typography} from '../../styles/index';
 
 const {width, height} = Dimensions.get('screen');
 
-export default function RoundedInputs({
+export default function RoundedInputPassword({
   placeholder,
   onChangeHandler,
   nameIcon,
@@ -26,6 +26,7 @@ export default function RoundedInputs({
               style={styles.inputError}
               placeholder={placeholder}
               onChangeText={onChangeHandler}
+              secureTextEntry={true}
               value={value}
             />
           </>
@@ -40,6 +41,7 @@ export default function RoundedInputs({
               style={styles.input}
               placeholder={placeholder}
               onChangeText={onChangeHandler}
+              secureTextEntry={true}
               value={value}
             />
           </>

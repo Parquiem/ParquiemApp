@@ -3,7 +3,6 @@ import {StyleSheet, KeyboardAvoidingView, Text} from 'react-native';
 import RoundedInputs from '../../../components/atomos/RoundedInputs';
 import NextButton from '../../../components/atomos/NextButton';
 import {Colors, Typography} from '../../../styles';
-import {Navigation} from 'react-native-navigation';
 
 class StepOne extends Component {
   constructor(props) {
@@ -13,6 +12,7 @@ class StepOne extends Component {
       currentStep: '',
       usuario: '',
       email: '',
+      errorLocal: false,
     };
   }
 
@@ -25,31 +25,60 @@ class StepOne extends Component {
   };
 
   nextStep = () => {
-    const {next} = this.props;
-
-    next();
+    const {usuario, email} = this.state;
+    const {next, saveState} = this.props;
+    if (usuario.length > 0 && email.length > 0) {
+      saveState({usuario, email});
+      this.setState({errorLocal: false}, () => {
+        next();
+      });
+    } else {
+      this.setState({errorLocal: true});
+    }
   };
 
-  userChange = text => {
-    this.setState({usuario: text});
-  };
+  userChange = text => this.setState({usuario: text});
 
-  mailChange = text => {
-    this.setState({email: text});
-  };
+  mailChange = text => this.setState({email: text});
 
   render() {
+    const {usuario, email, errorLocal} = this.state;
     return (
       <KeyboardAvoidingView style={styles.container}>
         <Text style={styles.title}>Parquiem</Text>
-        <RoundedInputs
-          placeholder="Usuarios"
-          nameIcon="user"
-        />
-        <RoundedInputs
-          placeholder="Correo"
-          nameIcon="envelope"
-        />
+        {!errorLocal ? (
+          <>
+            <RoundedInputs
+              onChangeHandler={this.userChange}
+              placeholder="Usuarios"
+              nameIcon="user"
+              value={usuario}
+            />
+            <RoundedInputs
+              onChangeHandler={this.mailChange}
+              placeholder="Correo"
+              nameIcon="envelope"
+              email={email}
+            />
+          </>
+        ) : (
+          <>
+            <RoundedInputs
+              onChangeHandler={this.userChange}
+              placeholder="Usuarios"
+              nameIcon="user"
+              value={usuario}
+              error={true}
+            />
+            <RoundedInputs
+              onChangeHandler={this.mailChange}
+              placeholder="Correo"
+              nameIcon="envelope"
+              value={email}
+              error={true}
+            />
+          </>
+        )}
         <NextButton handleNext={this.nextStep} style={styles.next} />
       </KeyboardAvoidingView>
     );

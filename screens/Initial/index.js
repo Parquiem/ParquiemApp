@@ -3,13 +3,14 @@ import {View, Text, StyleSheet} from 'react-native';
 import RoundedButton from '../../components/atomos/RoundedButton';
 import {Colors, Typography} from '../../styles/index';
 import {Navigation} from 'react-native-navigation';
+import {LOGIN, REGISTER} from '../../actions/screenDefinitions';
 
 class Initial extends Component {
   //TODO: Arreglar la funcion para no hacer hardcode el nombre del componente
   goToLogin = () => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'login',
+        name: LOGIN,
         options: {
           topBar: {
             animate: false,
@@ -27,7 +28,7 @@ class Initial extends Component {
   goToRegister = () => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'register',
+        name: REGISTER,
         options: {
           topBar: {
             animate: false,

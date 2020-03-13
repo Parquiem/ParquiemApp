@@ -1,30 +1,16 @@
 import {Navigation} from 'react-native-navigation';
-import Login from './screens/Initial/Login';
-import Register from './screens/Initial/Register';
-import Initial from './screens/Initial';
+import registerComponents from './screens/screen';
+import setNavigationRoot from './services/setNavigationRoot';
+import {store, persistor} from './store';
 
-Navigation.registerComponent('initial', () => Initial);
-Navigation.registerComponent('login', () => Login);
-Navigation.registerComponent('register', () => Register);
+registerComponents();
 
-Navigation.events().registerAppLaunchedListener(() => {
-  Navigation.setRoot({
-    root: {
-      stack: {
-        id: 'AppStack',
-        children: [
-          {
-            component: {
-              name: 'initial',
-              options: {
-                topBar: {
-                  visible: false,
-                },
-              },
-            },
-          },
-        ],
-      },
-    },
+const onRegisterAppLaunchedListener = () => {
+  console.log('store', store.getState());
+  persistor.subscribe(() => {
+    store.getState().auth.isAuthenticated
+      ? setNavigationRoot(true)
+      : setNavigationRoot(false);
   });
-});
+};
+Navigation.events().registerAppLaunchedListener(onRegisterAppLaunchedListener);

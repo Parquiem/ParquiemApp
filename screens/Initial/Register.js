@@ -18,6 +18,17 @@ const allSteps = [
 ];
 
 class Register extends Component {
+  state = {
+    usuario: '',
+    email: '',
+    password: '',
+    password2: '',
+  };
+
+  componentDidUpdate() {
+    console.log('DidUpdate', this.state);
+  }
+
   onNext = () => {
     console.log('Next');
   };
@@ -27,12 +38,13 @@ class Register extends Component {
   };
 
   finish = finalState => {
-    console.log(finalState);
+    console.log('finalState', finalState);
+    this.setState(state => ({...state, ...finalState}));
   };
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={styles.fl1}>
         <AnimatedMultistep
           steps={allSteps}
           onFinish={this.finish}
@@ -49,6 +61,9 @@ class Register extends Component {
 }
 
 const styles = StyleSheet.create({
+  fl1: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
