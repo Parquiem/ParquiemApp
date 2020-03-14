@@ -6,13 +6,17 @@ import {Colors, Typography} from '../../../styles';
 
 class StepOne extends Component {
   constructor(props) {
+    const {getState} = props;
     super(props);
     this.state = {
       totalSteps: '',
       currentStep: '',
-      usuario: '',
-      email: '',
-      errorLocal: false,
+      name: getState().name ? getState().name : '',
+      email: getState().email ? getState().email : '',
+      errorLocal: {
+        commit: false,
+        msg: '',
+      },
     };
   }
 
@@ -25,49 +29,49 @@ class StepOne extends Component {
   };
 
   nextStep = () => {
-    const {usuario, email} = this.state;
+    const {name, email} = this.state;
     const {next, saveState} = this.props;
-    if (usuario.length > 0 && email.length > 0) {
-      saveState({usuario, email});
-      this.setState({errorLocal: false}, () => {
+    if (name.length > 0 && email.length > 0) {
+      saveState({name, email});
+      this.setState({errorLocal: {commit: false, msg: ''}}, () => {
         next();
       });
     } else {
-      this.setState({errorLocal: true});
+      this.setState({errorLocal: {commit: true, msg: 'Completa los campos'}});
     }
   };
 
-  userChange = text => this.setState({usuario: text});
+  userChange = text => this.setState({name: text});
 
   mailChange = text => this.setState({email: text});
 
   render() {
-    const {usuario, email, errorLocal} = this.state;
+    const {name, email, errorLocal} = this.state;
     return (
       <KeyboardAvoidingView style={styles.container}>
         <Text style={styles.title}>Parquiem</Text>
-        {!errorLocal ? (
+        {!errorLocal.commit ? (
           <>
             <RoundedInputs
               onChangeHandler={this.userChange}
-              placeholder="Usuarios"
+              placeholder="Nombre"
               nameIcon="user"
-              value={usuario}
+              value={name}
             />
             <RoundedInputs
               onChangeHandler={this.mailChange}
               placeholder="Correo"
               nameIcon="envelope"
-              email={email}
+              value={email}
             />
           </>
         ) : (
           <>
             <RoundedInputs
               onChangeHandler={this.userChange}
-              placeholder="Usuarios"
+              placeholder="Nombre"
               nameIcon="user"
-              value={usuario}
+              value={name}
               error={true}
             />
             <RoundedInputs
@@ -77,6 +81,7 @@ class StepOne extends Component {
               value={email}
               error={true}
             />
+            <Text style={styles.txtErr}>{errorLocal.msg}</Text>
           </>
         )}
         <NextButton handleNext={this.nextStep} style={styles.next} />
@@ -108,6 +113,12 @@ const styles = StyleSheet.create({
   versionText: {
     color: Colors.GRAY,
     paddingBottom: 15,
+  },
+  txtErr: {
+    fontSize: 12,
+    color: Colors.STATE_ERROR,
+    marginBottom: 10,
+    marginLeft: 40,
   },
 });
 

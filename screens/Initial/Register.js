@@ -2,9 +2,13 @@ import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import AnimatedMultistep from 'react-native-animated-multistep';
 import {Colors, Typography} from '../../styles/index';
+import {register} from '../../actions/authActions';
+import {connect} from 'react-redux';
 
 import StepOne from './steps/StepOne';
 import StepTwo from './steps/StepTwo';
+import StepThree from './steps/StepThree';
+import {Navigation} from 'react-native-navigation';
 
 const allSteps = [
   {
@@ -15,17 +19,28 @@ const allSteps = [
     name: 'step 2',
     component: StepTwo,
   },
+  {
+    name: 'step 3',
+    component: StepThree,
+  },
 ];
 
 class Register extends Component {
   state = {
-    usuario: '',
+    name: '',
     email: '',
     password: '',
     password2: '',
+    phoneNumber: '',
   };
 
+  componentDidMount() {
+    console.log('Esto esta montado tio', this.props.auth);
+  }
+
   componentDidUpdate() {
+    let {name, email, password, password2, phoneNumber} = this.state;
+    this.props.register({name, email, phoneNumber, password, password2});
     console.log('DidUpdate', this.state);
   }
 
@@ -38,7 +53,6 @@ class Register extends Component {
   };
 
   finish = finalState => {
-    console.log('finalState', finalState);
     this.setState(state => ({...state, ...finalState}));
   };
 
@@ -89,4 +103,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+const mapStateToProps = store => ({
+  auth: store.auth,
+});
+
+export default connect(
+  mapStateToProps,
+  {register},
+)(Register);

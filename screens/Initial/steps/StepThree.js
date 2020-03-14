@@ -1,17 +1,18 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, KeyboardAvoidingView, Text} from 'react-native';
-import RoundedInputPassword from '../../../components/atomos/RoundedInputPassword';
+import RoundedInputs from '../../../components/atomos/RoundedInputs';
 import NextButton from '../../../components/atomos/NextButton';
 import BackButton from '../../../components/atomos/BackButton';
 import {Colors, Typography} from '../../../styles';
 
-class StepTwo extends Component {
+class StepThree extends Component {
   constructor(props) {
     const {getState} = props;
     super(props);
     this.state = {
-      password: getState().password ? getState().password : '',
-      password2: getState().password2 ? getState().password2 : '',
+      totalSteps: '',
+      currentStep: '',
+      phoneNumber: getState().phoneNumber ? getState().phoneNumber : '',
       errorLocal: {
         commit: false,
         msg: '',
@@ -20,19 +21,13 @@ class StepTwo extends Component {
   }
 
   nextStep = () => {
-    const {password, password2} = this.state;
+    const {phoneNumber} = this.state;
     const {next, saveState} = this.props;
-    if (password.length > 0 && password2.length > 0) {
-      if (password !== password2) {
-        this.setState({
-          errorLocal: {commit: true, msg: 'Las contraseñas no coinciden'},
-        });
-      } else {
-        saveState({password, password2});
-        this.setState({errorLocal: {commit: false, msg: ''}}, () => {
-          next();
-        });
-      }
+    if (phoneNumber.length > 0) {
+      saveState({phoneNumber});
+      this.setState({errorLocal: {commit: false, msg: ''}}, () => {
+        next();
+      });
     } else {
       this.setState({errorLocal: {commit: true, msg: 'Completa los campos'}});
     }
@@ -43,44 +38,29 @@ class StepTwo extends Component {
     back();
   };
 
-  passwordChange = text => this.setState({password: text});
-
-  password2Change = text => this.setState({password2: text});
+  phoneChange = text => this.setState({phoneNumber: text});
 
   render() {
-    const {password, password2, errorLocal} = this.state;
+    const {phoneNumber, errorLocal} = this.state;
     return (
       <KeyboardAvoidingView style={styles.container}>
         <Text style={styles.title}>Parquiem</Text>
         {!errorLocal.commit ? (
           <>
-            <RoundedInputPassword
-              onChangeHandler={this.passwordChange}
-              placeholder="Contraseña"
-              nameIcon="lock"
-              value={password}
-            />
-            <RoundedInputPassword
-              onChangeHandler={this.password2Change}
-              placeholder="Repetir Contraseña"
-              nameIcon="lock"
-              value={password2}
+            <RoundedInputs
+              onChangeHandler={this.phoneChange}
+              placeholder="Telefono"
+              nameIcon="phone"
+              value={phoneNumber}
             />
           </>
         ) : (
           <>
-            <RoundedInputPassword
-              onChangeHandler={this.passwordChange}
-              placeholder="Contraseña"
-              nameIcon="lock"
-              value={password}
-              error={true}
-            />
-            <RoundedInputPassword
-              onChangeHandler={this.password2Change}
-              placeholder="Repetir Contraseña"
-              nameIcon="lock"
-              value={password2}
+            <RoundedInputs
+              onChangeHandler={this.phoneChange}
+              placeholder="Telefono"
+              nameIcon="phone"
+              value={phoneNumber}
               error={true}
             />
             <Text style={styles.txtErr}>{errorLocal.msg}</Text>
@@ -131,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StepTwo;
+export default StepThree;

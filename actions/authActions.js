@@ -11,7 +11,13 @@ import {
 import {returnErrors} from './errorActions';
 import axios from 'axios';
 
-export const register = ({name, email, phoneNumber, password}) => dispatch => {
+export const register = ({
+  name,
+  email,
+  phoneNumber,
+  password,
+  password2,
+}) => dispatch => {
   //Headers
   const config = {
     headers: {
@@ -19,15 +25,19 @@ export const register = ({name, email, phoneNumber, password}) => dispatch => {
     },
   };
 
-  const body = JSON.stringify({name, email, phoneNumber, password});
+  const body = JSON.stringify({name, email, phoneNumber, password, password2});
 
   axios
-    .post('http://127.0.0.1:5000/api/users/register', body, config)
-    .then(res => dispatch({type: REGISTER_SUCCESS, payload: res.data}))
+    .post('http://192.168.0.9:5000/api/users/register', body, config)
+    .then(res => {
+      console.log('Se pudo registrar');
+      dispatch({type: REGISTER_SUCCESS, payload: res.data});
+    })
     .catch(err => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, REGISTER_FAIL),
-      );
+      console.log('No se pudo registrar', err);
+      // dispatch(
+      //   returnErrors(err.response.data, err.response.status, REGISTER_FAIL),
+      // );
       dispatch({
         type: REGISTER_FAIL,
       });
