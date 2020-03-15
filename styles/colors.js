@@ -2,6 +2,7 @@ export const PRIMARY_BLUE = '#00649D';
 export const DARK_BLUE = '#00304B';
 export const LIGHT_BLUE = '#0092E4';
 export const WHITE = '#FFFFFF';
+export const DARKER_WHITE = '#F9F9F9';
 export const BLACK = '#000000';
 export const GRAY = '#868686';
 
