@@ -17,14 +17,13 @@ const initialState = {
   user: null,
 };
 
-export default (state = initialState, {type, payload}) => {
-  switch (type) {
+export default (state = initialState, action) => {
+  switch (action.type) {
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      // storage.set('token', payload.token);
       return {
         ...state,
-        ...payload,
+        ...action.payload,
         isAuthenticated: true,
         isLoading: false,
       };
@@ -32,13 +31,8 @@ export default (state = initialState, {type, payload}) => {
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case REGISTER_FAIL:
-      // storage.remove('token');
       return {
         ...state,
-        token: null,
-        user: null,
-        isAuthenticated: false,
-        isLoading: false,
       };
     default:
       return state;

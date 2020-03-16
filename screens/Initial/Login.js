@@ -4,18 +4,22 @@ import RoundedInputs from '../../components/atomos/RoundedInputs';
 import RoundedInputPassword from '../../components/atomos/RoundedInputPassword';
 import NextButton from '../../components/atomos/NextButton';
 import {Colors, Typography} from '../../styles/index';
-import {Navigation} from 'react-native-navigation';
+import {login} from '../../actions/authActions';
+import {connect} from 'react-redux';
 
 class Login extends Component {
   state = {
-    username: '',
+    email: '',
     password: '',
-    errorLocal: false,
+    errorLocal: {
+      commit: false,
+      msg: '',
+    },
     errors: {},
   };
 
   userChange = text => {
-    this.setState({username: text});
+    this.setState({email: text});
   };
 
   passwordChange = text => {
@@ -23,27 +27,27 @@ class Login extends Component {
   };
 
   submit = () => {
-    const {username, password} = this.state;
-    if (username.length > 0 && password.length > 0) {
-      // TODO: Llamar el action que envia datos a la API para recibir feedback
+    const {email, password} = this.state;
+    if (email.length > 0 && password.length > 0) {
+      this.props.login({email, password});
       console.log('Login');
     } else {
-      this.setState({errorLocal: true});
+      this.setState({errorLocal: {commit: true, msg: 'Complete los campos'}});
     }
   };
 
   render() {
-    const {username, password, errorLocal} = this.state;
+    const {email, password, errorLocal} = this.state;
     return (
       <KeyboardAvoidingView style={styles.container}>
         <Text style={styles.title}>Parquiem</Text>
-        {!errorLocal ? (
+        {!errorLocal.commit ? (
           <>
             <RoundedInputs
               onChangeHandler={this.userChange}
-              placeholder="Usuario"
+              placeholder="Correo"
               nameIcon="user"
-              value={username}
+              value={email}
             />
             <RoundedInputPassword
               onChangeHandler={this.passwordChange}
@@ -56,9 +60,9 @@ class Login extends Component {
           <>
             <RoundedInputs
               onChangeHandler={this.userChange}
-              placeholder="Usuario"
+              placeholder="Correo"
               nameIcon="user"
-              value={username}
+              value={email}
               error={true}
             />
             <RoundedInputPassword
@@ -68,6 +72,7 @@ class Login extends Component {
               value={password}
               error={true}
             />
+            <Text style={styles.txtErr}>{errorLocal.msg}</Text>
           </>
         )}
         <NextButton handleNext={this.submit} style={styles.next} />
@@ -100,6 +105,15 @@ const styles = StyleSheet.create({
     color: Colors.GRAY,
     paddingBottom: 15,
   },
+  txtErr: {
+    fontSize: 12,
+    color: Colors.STATE_ERROR,
+    marginBottom: 10,
+    marginLeft: 40,
+  },
 });
 
-export default Login;
+export default connect(
+  null,
+  {login},
+)(Login);

@@ -8,7 +8,6 @@ import {connect} from 'react-redux';
 import StepOne from './steps/StepOne';
 import StepTwo from './steps/StepTwo';
 import StepThree from './steps/StepThree';
-import {Navigation} from 'react-native-navigation';
 
 const allSteps = [
   {
@@ -38,12 +37,6 @@ class Register extends Component {
     console.log('Esto esta montado tio', this.props.auth);
   }
 
-  componentDidUpdate() {
-    let {name, email, password, password2, phoneNumber} = this.state;
-    this.props.register({name, email, phoneNumber, password, password2});
-    console.log('DidUpdate', this.state);
-  }
-
   onNext = () => {
     console.log('Next');
   };
@@ -53,7 +46,8 @@ class Register extends Component {
   };
 
   finish = finalState => {
-    this.setState(state => ({...state, ...finalState}));
+    console.log('finalState', finalState);
+    this.props.register(finalState);
   };
 
   render() {

@@ -7,10 +7,7 @@ registerComponents();
 
 const onRegisterAppLaunchedListener = () => {
   console.log('store', store.getState());
-  persistor.subscribe(() => {
-    store.getState().auth.isAuthenticated
-      ? setNavigationRoot(true)
-      : setNavigationRoot(false);
-  });
+  console.log('persistor', persistor.getState());
+  setNavigationRoot(store.getState().auth.isAuthenticated);
 };
 Navigation.events().registerAppLaunchedListener(onRegisterAppLaunchedListener);

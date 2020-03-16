@@ -1,5 +1,5 @@
 import {createStore, applyMiddleware, compose} from 'redux';
-import storage from '@react-native-community/async-storage';
+import Asyncstorage from '@react-native-community/async-storage';
 import {persistReducer, persistStore} from 'redux-persist';
 
 // Reducers
@@ -10,18 +10,18 @@ const initialState = {};
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: Asyncstorage,
   whitelist: ['auth'],
 };
 
-const composeEnhancers = compose;
-
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = createStore(
+const store = createStore(
   persistedReducer,
   initialState,
-  composeEnhancers(applyMiddleware(thunk)),
+  applyMiddleware(thunk),
 );
 
-export const persistor = persistStore(store);
+const persistor = persistStore(store);
+
+export {store, persistor};
