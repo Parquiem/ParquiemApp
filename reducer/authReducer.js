@@ -31,9 +31,7 @@ export default (state = initialState, action) => {
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case REGISTER_FAIL:
-      return {
-        ...state,
-      };
+      return state;
     default:
       return state;
   }

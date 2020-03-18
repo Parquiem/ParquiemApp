@@ -1,6 +1,7 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import Asyncstorage from '@react-native-community/async-storage';
 import {persistReducer, persistStore} from 'redux-persist';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 // Reducers
 import rootReducer from './reducer/index';
@@ -19,7 +20,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = createStore(
   persistedReducer,
   initialState,
-  applyMiddleware(thunk),
+  composeWithDevTools(applyMiddleware(thunk)),
 );
 
 const persistor = persistStore(store);

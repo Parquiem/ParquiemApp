@@ -3,7 +3,14 @@ import Login from './Initial/Login';
 import Register from './Initial/Register';
 import Initial from './Initial';
 import Main from './Main';
-import {INITIAL, REGISTER, LOGIN, MAIN} from '../actions/screenDefinitions';
+import SideMenu from '../components/moleculas/SideMenu';
+import {
+  INITIAL,
+  REGISTER,
+  LOGIN,
+  MAIN,
+  SIDEMENU,
+} from '../actions/screenDefinitions';
 
 import {Provider} from 'react-redux';
 import {store} from '../store';
@@ -23,4 +30,10 @@ export default () => {
     store,
   );
   Navigation.registerComponentWithRedux(MAIN, () => Main, Provider, store);
+  Navigation.registerComponentWithRedux(
+    SIDEMENU,
+    () => SideMenu,
+    Provider,
+    store,
+  );
 };

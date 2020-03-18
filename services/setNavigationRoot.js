@@ -1,5 +1,5 @@
 import {Navigation} from 'react-native-navigation';
-import {MAIN, INITIAL} from '../actions/screenDefinitions';
+import {MAIN, INITIAL, SIDEMENU} from '../actions/screenDefinitions';
 import {store, persistor} from '../store';
 
 export default async auth => {
@@ -8,19 +8,29 @@ export default async auth => {
   let rootConfig = {};
   if (auth) {
     rootConfig = {
-      stack: {
-        children: [
-          {
-            component: {
-              name: MAIN,
-              options: {
-                topBar: {
-                  visible: false,
+      sideMenu: {
+        left: {
+          component: {
+            name: SIDEMENU,
+            id: SIDEMENU,
+          },
+        },
+        center: {
+          stack: {
+            children: [
+              {
+                component: {
+                  name: MAIN,
+                  options: {
+                    topBar: {
+                      visible: false,
+                    },
+                  },
                 },
               },
-            },
+            ],
           },
-        ],
+        },
       },
     };
   } else {
