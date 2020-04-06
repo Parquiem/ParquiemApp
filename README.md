@@ -4,7 +4,7 @@ La aplicación por el momento no puede conectarse a la plataforma de google clou
 
 
 ### Requisistos antes de correr la app
-Una ve que haya clonado el proyecto, necesitara instalar las dependencias del proyecto en su computadora, para eso solo utilice:
+Una vez que haya clonado el proyecto, necesitara instalar las dependencias del proyecto en su computadora, para eso solo utilice:
 
 `npm install`
 
