@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
-import Initial from './screens/Initial';
-import Login from './screens/Initial/Login';
-import Register from './screens/Initial/Register';
-
-// const Stack = createStackNavigator();
-
+import {Text} from 'react-native';
+import {Provider} from 'react-redux';
+import {store, persistor} from './store';
+import {PersistGate} from 'redux-persist/integration/react';
+import {Navigation} from 'react-native-navigation';
+import setNavigationRoot from './services/setNavigationRoot';
 class App extends Component {
   render() {
     return (
-      <>
-        <Initial />
-      </>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          {Navigation.setRoot(
+            setNavigationRoot(store.getState().auth.isAuthenticated),
+          )}
+        </PersistGate>
+      </Provider>
     );
   }
 }

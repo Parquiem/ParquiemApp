@@ -1,22 +1,27 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
-import {Colors} from '../../styles';
-import RoundedButton from '../../components/atomos/RoundedButton';
+import {View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
 import HamburguerButton from '../../components/atomos/HamburguerButton';
-import {logout} from '../../actions/authActions';
+import Mapa from '../../components/moleculas/Mapa';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Navigation} from 'react-native-navigation';
-import {SIDEMENU} from '../../actions/screenDefinitions';
+import {SIDEMENU, PLACE_INFO_DETAIL} from '../../actions/screenDefinitions';
+import LocationInfo from '../../components/atomos/LocationInfo';
+const place = require('../../placeInfo').default;
+const MULTIPLIER = 1.15;
+const LONG_DURATION = 350 * MULTIPLIER;
+const SHORT_DURATION = 190 * MULTIPLIER;
+
+const {height} = Dimensions.get('screen');
 
 class Main extends Component {
+  state = {
+    isActive: false,
+  };
+
   componentDidMount() {
     console.log('Montado el main screen');
   }
-
-  handleLogout = () => {
-    this.props.logout();
-  };
 
   handleMenu = () => {
     Navigation.mergeOptions(SIDEMENU, {
@@ -28,28 +33,52 @@ class Main extends Component {
     });
   };
 
+  locationPress = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: PLACE_INFO_DETAIL,
+        passProps: {...place},
+        options: {
+          topBar: {
+            visible: false,
+          },
+        },
+      },
+    });
+  };
+
+  handlePress = () => {
+    this.setState({isActive: !this.state.isActive});
+  };
+
   render() {
-    console.log('props en main', this.props);
-    const {name, email} = this.props.user;
     return (
       <View>
-        <HamburguerButton handleMenu={this.handleMenu} />
-        <Text>Hola {name}</Text>
-        <Text>Tu email es: {email}</Text>
-        <RoundedButton
-          onPressHandler={this.handleLogout}
-          bg={Colors.PRIMARY_BLUE}
-          text="Cerrar sesión"
-          color={Colors.WHITE}
-        />
+        <Mapa handleMarkerPress={this.handlePress} />
+        <View style={styles.mainOptionContainer}>
+          <HamburguerButton handleMenu={this.handleMenu} />
+          {this.state.isActive && (
+            <>
+              <TouchableOpacity onPress={this.locationPress}>
+                <LocationInfo {...place} />
+              </TouchableOpacity>
+            </>
+          )}
+        </View>
       </View>
     );
   }
 }
 
+const styles = StyleSheet.create({
+  mainOptionContainer: {
+    justifyContent: 'space-between',
+    height,
+  },
+});
+
 Main.propTypes = {
   user: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = store => ({
@@ -58,5 +87,5 @@ const mapStateToProps = store => ({
 
 export default connect(
   mapStateToProps,
-  {logout},
+  null,
 )(Main);

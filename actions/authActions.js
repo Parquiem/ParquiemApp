@@ -11,7 +11,6 @@ import {
 import setNavigationRoot from '../services/setNavigationRoot';
 import axios from 'axios';
 import {persistor, store} from '../store';
-import {IP} from '../IP';
 
 export const register = ({
   name,
@@ -30,7 +29,7 @@ export const register = ({
   const body = JSON.stringify({name, email, phoneNumber, password, password2});
 
   axios
-    .post(`http://${IP}:5000/api/users/register`, body, config)
+    .post(`http://www.parquiem.tech/api/users/register`, body, config)
     .then(({data}) => {
       console.log('Se pudo registrar');
       dispatch({type: REGISTER_SUCCESS, payload: data});
@@ -55,7 +54,7 @@ export const login = ({email, password}) => dispatch => {
   const body = JSON.stringify({email, password});
 
   axios
-    .post(`http://${IP}:5000/api/users/login`, body, config)
+    .post(`http://www.parquiem.tech/api/users/login`, body, config)
     .then(res => {
       console.log('logueado');
       dispatch({type: LOGIN_SUCCESS, payload: res.data});

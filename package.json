@@ -11,6 +11,7 @@
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19001'"
   },
   "dependencies": {
+    "@google-cloud/pubsub": "^1.7.0",
     "@react-native-community/async-storage": "^1.8.1",
     "axios": "^0.19.2",
     "prop-types": "^15.7.2",
@@ -19,6 +20,7 @@
     "react-native": "0.61.5",
     "react-native-animated-multistep": "^1.0.6",
     "react-native-elements": "^1.2.7",
+    "react-native-maps": "0.27.0",
     "react-native-navigation": "^6.1.0",
     "react-native-vector-icons": "^6.6.0",
     "react-redux": "^7.2.0",

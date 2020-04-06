@@ -113,7 +113,11 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapStateToProps = store => ({
+  auth: store.auth,
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   {login},
 )(Login);

@@ -4,12 +4,14 @@ import Register from './Initial/Register';
 import Initial from './Initial';
 import Main from './Main';
 import SideMenu from '../components/moleculas/SideMenu';
+import PlaceInfoDetail from './Main/PlaceInfoDetail';
 import {
   INITIAL,
   REGISTER,
   LOGIN,
   MAIN,
   SIDEMENU,
+  PLACE_INFO_DETAIL,
 } from '../actions/screenDefinitions';
 
 import {Provider} from 'react-redux';
@@ -36,4 +38,5 @@ export default () => {
     Provider,
     store,
   );
+  Navigation.registerComponent(PLACE_INFO_DETAIL, () => PlaceInfoDetail);
 };
